@@ -144,6 +144,7 @@ table {
 }
 
 .currentday {
+  position: relative;
   width: calc(100% / 7);
   box-sizing: border-box;
   border: #eeeeee 1px solid;
@@ -155,8 +156,10 @@ table {
   &.block {
     background-color: #eeeeee;
   }
-  &.date {
-    padding-left: 0px;
+  .date {
+    position: absolute;
+    left: 2px;
+    top: 2px;
   }
 }
 

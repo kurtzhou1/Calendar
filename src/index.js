@@ -4,11 +4,28 @@ import * as serviceWorker from "./serviceWorker";
 import CalendarBody from "./components/calendarBody";
 
 class Calendar extends React.Component {
-  // state = {
-  //   year: 2019,
-  //   month: 1
-  // };
-  componentDidMount() {}
+  state = {
+    ary1: "",
+    ary2: "",
+    ary3: "",
+    ary4: ""
+  };
+  componentDidMount = async () => {
+    const data1 = await fetch("./data1.json").then(response => response.json());
+    const data2 = await fetch("./data2.json").then(response => response.json());
+    const data3 = await fetch("./data3.json").then(response => response.json());
+    const data4 = await fetch("./data4.json").then(response => response.json());
+    this.setState({ ary1: data1, ary2: data2, ary3: data3, ary4: data4 });
+    console.log("PPPP", this.state.ary2);
+
+    // .then(response => {
+    //   return response.json();
+    // })
+    // .then(JsonData => {
+    //   this.calendarData = JsonData;
+    //   console.log("PPPP", this.calendarData);
+    // });
+  };
 
   handleFilterUpdate = (filterYear, filterMonth) => {
     this.setState({
@@ -30,8 +47,14 @@ class Calendar extends React.Component {
       },
       year: 2016,
       month: 1,
-      day: 1
+      day: 1,
+      calendarData1: this.state.ary1,
+      calendarData2: this.state.ary2,
+      calendarData3: this.state.ary3,
+      calendarData4: this.state.ary4
     };
+
+    // console.log("CData2", this.state.ary);
 
     return (
       <React.Fragment>
