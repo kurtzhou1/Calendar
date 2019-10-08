@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./index.scss";
+import * as moment from "moment";
 
 class CalendarBody extends Component {
   constructor(props) {
@@ -20,57 +21,40 @@ class CalendarBody extends Component {
       Fmonth: 12,
       Byear: 2017,
       Bmonth: 2,
-      dt: "",
+      end: false,
+      endL: false,
+      endR: false,
       hasData: "",
-      dtyear: "",
-      dtmonth: "",
-      dtday: "",
-      JsonData1: "",
-      JsonData2: "",
-      JsonData3: "",
-      JsonData4: "",
-      JsonData5: ""
+      click: false
     };
-    this.calendarData = null;
-
-    // this.calendarData.map(ele => {
-    //   let dtyear = parseInt(ele.date.substring(0, 4));
-    //   let dtmonth = parseInt(ele.date.substring(5, 7));
-    //   let dtday = parseInt(ele.date.substring(8, 11));
-    //   console.log({ dtyear, dtmonth, dtday });
-    //   this.setState({
-    //     dt: { dtyear, dtmonth, dtday }
-    //   });
-    // });
   }
 
-  compare = () => {
-    const { year, month, dtday, hasData } = this.state;
-    // fetch("./data1.json")
-    //   .then(response => {
-    //     return response.json();
-    //   })
-    //   .then(JsonData1 => {
-    //     this.calendarData = JsonData1;
-
-    this.props.calendarData.map(ele => {
-      let dtyear = parseInt(ele.date.substring(0, 4));
-      let dtmonth = parseInt(ele.date.substring(5, 7));
-      let dtday = parseInt(ele.date.substring(8, 11));
-      console.log(dtyear);
-      // if (dtyear === year && dtmonth === month && dtday === item) {
-      //   this.setState({
-      //     hasData: true
-      //   });
-      // }
+  componentDidMount() {
+    const Y = parseInt(
+      moment(this.props.initYearMonth, "YYYYMM").format("YYYY")
+    );
+    const M = parseInt(moment(this.props.initYearMonth, "YYYYMM").format("MM"));
+    let FM = M - 1;
+    let FY = Y;
+    let BM = M + 1;
+    let BY = Y;
+    if (BM > 12) {
+      BY++;
+      BM = 1;
+    }
+    if (FM < 1) {
+      FY--;
+      FM = 12;
+    }
+    this.setState({
+      year: Y,
+      month: M,
+      Fyear: FY,
+      Fmonth: FM,
+      Byear: BY,
+      Bmonth: BM
     });
-    // });
-  };
-
-  // this.calendarData.map((ele, i) => {
-  //   // if (ele.date === "item") {
-  //   // }
-  // });
+  }
 
   getMonthDays = () => {
     //根據年月取得當月的天數
@@ -92,38 +76,97 @@ class CalendarBody extends Component {
   };
 
   handLeft = () => {
-    let newMonth = parseInt(this.state.Fmonth) - 1;
+    const { Fmonth } = this.state;
+    let newMonth = parseInt(Fmonth) - 1;
     let year = this.state.Fyear;
     if (newMonth < 1) {
       year--;
       newMonth = 12;
     }
-    this.setState({
-      Bmonth: this.state.month,
-      Byear: this.state.year,
-      month: this.state.Fmonth,
-      year: this.state.Fyear,
-      Fmonth: newMonth,
-      Fyear: year
-    });
-    // this.compare();
+
+    let tmpAry =
+      this.props.calendarData3 &&
+      this.props.calendarData3.map(ele => {
+        let dtyear = parseInt(moment(ele.date).format("YYYY"));
+        let dtmonth = parseInt(moment(ele.date).format("MM"));
+        return {
+          ddtyear: dtyear,
+          ddtmonth: dtmonth
+        };
+      });
+
+    let minYear = Math.min(...tmpAry.map(p => p.ddtyear));
+    let tmpAry2 = tmpAry.filter(p => p.ddtyear === minYear);
+    let minMonth = Math.min(...tmpAry2.map(p => p.ddtmonth)) - 1;
+    console.log(year, minYear, newMonth, minMonth, Fmonth);
+    if (year <= minYear && newMonth <= minMonth) {
+      this.setState({
+        endL: true,
+        end: true
+      });
+    } else if (year >= minYear && newMonth >= 1) {
+      this.setState({
+        Bmonth: this.state.month,
+        Byear: this.state.year,
+        month: this.state.Fmonth,
+        year: this.state.Fyear,
+        Fmonth: newMonth,
+        Fyear: year,
+        end: false,
+        endR: false,
+        endL: false
+      });
+    }
   };
   handRight = () => {
+    const { Bmonth } = this.state;
     let newMonth = parseInt(this.state.Bmonth) + 1;
     let year = this.state.Byear;
     if (newMonth > 12) {
       year++;
       newMonth = 1;
     }
+
+    let tmpAry =
+      this.props.calendarData3 &&
+      this.props.calendarData3.map(ele => {
+        let dtyear = parseInt(moment(ele.date).format("YYYY"));
+        let dtmonth = parseInt(moment(ele.date).format("MM"));
+        let dtday = parseInt(moment(ele.date).format("DD"));
+        return {
+          ddtyear: dtyear,
+          ddtmonth: dtmonth,
+          ddtday: dtday
+        };
+      });
+    let maxYear = Math.max(...tmpAry.map(p => p.ddtyear));
+    let tmpAry2 = tmpAry.filter(p => p.ddtyear === maxYear);
+    let maxMonth = Math.max(...tmpAry2.map(p => p.ddtmonth));
+    console.log(year, maxYear, newMonth, maxMonth, Bmonth);
+    if (year > maxYear || Bmonth > maxMonth) {
+      this.setState({
+        endR: true,
+        end: true
+      });
+    } else if (year <= maxYear && newMonth <= maxMonth) {
+      this.setState({
+        Fmonth: this.state.month,
+        Fyear: this.state.year,
+        year: this.state.Byear,
+        month: this.state.Bmonth,
+        Bmonth: newMonth,
+        Byear: year,
+        end: false,
+        endL: false,
+        endR: false
+      });
+    }
+  };
+
+  click = date => {
     this.setState({
-      Fmonth: this.state.month,
-      Fyear: this.state.year,
-      year: this.state.Byear,
-      month: this.state.Bmonth,
-      Bmonth: newMonth,
-      Byear: year
+      clickDate: date
     });
-    this.compare();
   };
 
   render() {
@@ -135,37 +178,27 @@ class CalendarBody extends Component {
       Fmonth,
       Byear,
       Bmonth,
-      dtyear,
-      dtmonth,
-      dtday,
-      JsonData1,
-      hasData
+      endR,
+      endL,
+      end
     } = this.state;
 
-    this.props.calendarData &&
-      this.props.calendarData.map(ele => {
-        let dtyear = parseInt(ele.date.substring(0, 4));
-        let dtmonth = parseInt(ele.date.substring(5, 7));
-        let dtday = parseInt(ele.date.substring(8, 11));
-        //   let i = 1;
-        // this.setState({
-        //   dtyear: dtyear,
-        //   dtmonth: dtmonth,
-        //   dtday: dtday
-        // });
-        // while (i < 32) {
-        if (dtyear === year && dtmonth === month) {
-          // alert();
-          // this.setState({
-          //   hasData: true
-          // });
-          //     i++;
-          //   }
-          // }
-        }
-      });
-    console.log("IIII", this.props.calendarData1);
-    this.calendarData && console.log("IIII", this.calendarData);
+    const { calendar } = this.props;
+    // console.log(
+    //   "GG",
+    //   parseInt(moment(this.props.initYearMonth, "YYYYMM").format("MM")),
+    //   this.state.year
+    // );
+
+    // let dtdt = moment("2019/10/5").format("YYYY");
+    // this.props.calendarData3 &&
+    //   this.props.calendarData3.map(ele => {
+    //     let dtyear = moment(ele.date).format("YYYY");
+    //     let dtmonth = moment(ele.date).format("MM");
+    //     let dtday = moment(ele.date).format("DD");
+    //   });
+
+    // console.log("IIII", this.props.calendarData3);
     let array1 = [];
     let array2 = [];
     let array3 = [];
@@ -177,6 +210,7 @@ class CalendarBody extends Component {
       // console.log(i);
       array1[i] = i;
     }
+
     for (let i = 0; i < lack; i++) {
       array3[i] = i;
     }
@@ -187,23 +221,78 @@ class CalendarBody extends Component {
 
     // console.log(array1, array2);
     let node1 = array1.map(() => {
-      return <div className="currentday block"></div>;
-    });
-
-    let node2 = array2.map(item => {
       return (
         <div
-          className={`currentday ${
-            dtyear === year && dtmonth === month && dtday === item ? "GG" : "HH"
-          }`}
-        >
-          <span className="date">{item}</span>
-        </div>
+          className={`currentday block ${calendar ? "calendar" : "strip"}`}
+        ></div>
       );
     });
 
+    // this.props.calendarData3 &&
+    // this.props.calendarData3.map(ele => {
+    //   let dtyear = moment(ele.date).format("YYYY");
+    //   let dtmonth = moment(ele.date).format("MM");
+    //   let dtday = moment(ele.date).format("DD");
+    //   return (
+    //     <React.Fragment>
+    //       <div className={`${ele.guaranteed ? "guaranteed" : ""}`}>{`${
+    //         ele.guaranteed ? "成團" : ""
+    //       }`}</div>
+    //       <div className="status">{ele.status}</div>
+    //       <div className="availableVancancy">
+    //         可賣：{ele.availableVancancy}
+    //       </div>
+    //       <div className="totalVacnacy">團位：{ele.totalVacnacy}</div>
+    //       <div className="price">{ele.price}</div>
+    //     </React.Fragment>
+    //   );
+    // });
+
+    // let node2 = array2.map(item => {
+    //   return (
+    //     <div
+    //       className={`currentday ${
+    //         dtyear === year && dtmonth === month && dtday === item ? "GG" : "HH"
+    //       }`}
+    //     >
+    //       <span className="date">{item}</span>
+    //     </div>
+    //   );
+    // });
+
+    // let node2 = array2.map(item => {
+    //   this.props.calendarData3 &&
+    //     this.props.calendarData3.map(ele => {
+    //       let dtyear = moment(ele.date).format("YYYY");
+    //       let dtmonth = moment(ele.date).format("MM");
+    //       let dtday = moment(ele.date).format("DD");
+    //       // console.log("test1", dtyear, dtmonth, dtday);
+    //       // console.log("test2", year, month, item);
+    //       if (true) {
+    //         return (
+    //           <React.Fragment>
+    //             {/* <div
+    //             className={`currentday ${
+    //               dtyear === year && dtmonth === month && dtday === item
+    //                 ? "GG"
+    //                 : "HH"
+    //             }`}
+    //           >
+    //             <span className="date">{item}</span>
+    //           </div> */}
+    //             <div>{item}</div>
+    //           </React.Fragment>
+    //         );
+    //       }
+    //     });
+    // });
+
     let node3 = array3.map(() => {
-      return <div className="currentday block"></div>;
+      return (
+        <div
+          className={`currentday block ${calendar ? "calendar" : "strip"}`}
+        ></div>
+      );
     });
 
     return (
@@ -220,14 +309,16 @@ class CalendarBody extends Component {
             </div>
             <div className="ntb">
               <div
-                className="title"
+                className={`title ${endL ? "end" : ""}`}
                 onClick={() => {
                   this.handLeft();
                 }}
               >{`${Fyear} ${Fmonth}月`}</div>
-              <div className="title now">{`${year} ${month}月`}</div>
               <div
-                className="title"
+                className={`title now ${end ? "end" : ""}`}
+              >{`${year} ${month}月`}</div>
+              <div
+                className={`title ${endR ? "end" : ""}`}
                 onClick={() => {
                   this.handRight();
                 }}
@@ -242,12 +333,154 @@ class CalendarBody extends Component {
               ></span>
             </div>
           </div>
-          <div className="main table">
+          <div className={`main table ${calendar ? "calendar" : "strip"}`}>
             {week.map(ele => {
               return <div className="week">{ele}</div>;
             })}
+          </div>
+          <div className="second table">
             {node1}
-            {node2}
+            {array2.map(item => {
+              if (calendar) {
+                return (
+                  <div
+                    className={`currentday ${calendar ? "calendar" : "strip"} ${
+                      this.state.clickDate === `${year}/${month}/${item}`
+                        ? "click"
+                        : ""
+                    }`}
+                  >
+                    <span className="date">{item}</span>
+                    {this.props.calendarData3 &&
+                      this.props.calendarData3.map(ele => {
+                        let dtyear = parseInt(moment(ele.date).format("YYYY"));
+                        let dtmonth = parseInt(moment(ele.date).format("MM"));
+                        let dtday = parseInt(moment(ele.date).format("DD"));
+                        const aryPrice = parseFloat(ele.price).toLocaleString();
+                        if (
+                          dtyear === year &&
+                          dtmonth === month &&
+                          dtday === item
+                        ) {
+                          return (
+                            <React.Fragment>
+                              {/* classnmae={`${calendar ? "calendar" : "strip"}`} */}
+
+                              <div
+                                id={`${year}/${month}/${item}`}
+                                onClick={e => {
+                                  this.click(e.currentTarget.id);
+                                  console.log(e.currentTarget.id);
+                                }}
+                                key={`${year}/${month}/${item}`}
+                              >
+                                <div
+                                  className={`${
+                                    ele.guaranteed ? "guaranteed" : ""
+                                  } ${ele.certain ? "guaranteed" : ""}`}
+                                >{`${ele.guaranteed ? "成團" : ""} ${
+                                  ele.certain ? "成團" : ""
+                                }`}</div>
+                                <div
+                                  className={`${
+                                    ele.status === "報名"
+                                      ? "OGstatus"
+                                      : "status"
+                                  } ${
+                                    ele.state === "報名" ? "OGstatus" : "status"
+                                  }`}
+                                >
+                                  {ele.status}
+                                  {ele.state}
+                                </div>
+                                <div className="availableVancancy">
+                                  可賣：{ele.availableVancancy}
+                                  {ele.onsell}
+                                </div>
+                                <div className="totalVacnacy">
+                                  團位：{ele.totalVacnacy}
+                                  {ele.total}
+                                </div>
+                                <div className="price">${aryPrice}</div>
+                              </div>
+                            </React.Fragment>
+                          );
+                        }
+                      })}
+                  </div>
+                );
+              } else {
+                return (
+                  this.props.calendarData3 &&
+                  this.props.calendarData3.map(ele => {
+                    let dtyear = parseInt(moment(ele.date).format("YYYY"));
+                    let dtmonth = parseInt(moment(ele.date).format("MM"));
+                    let dtday = parseInt(moment(ele.date).format("DD"));
+                    const aryPrice = parseFloat(ele.price).toLocaleString();
+                    if (
+                      dtyear === year &&
+                      dtmonth === month &&
+                      dtday === item
+                    ) {
+                      return (
+                        <React.Fragment>
+                          <div
+                            className={`currentday2 ${
+                              this.state.clickDate ===
+                              `${year}/${month}/${item}`
+                                ? "click"
+                                : ""
+                            }`}
+                            id={`${year}/${month}/${item}`}
+                            onClick={e => {
+                              this.click(e.currentTarget.id);
+                              console.log(e.currentTarget.id);
+                              console.log(
+                                "TEST2",
+                                week[new Date(Fyear, Fmonth, item).getDay()]
+                              );
+                            }}
+                            key={`${year}/${month}/${item}`}
+                          >
+                            <span className="date">{item}</span>
+                            <div className="week2">
+                              {week[new Date(Fyear, Fmonth, item).getDay()]}
+                            </div>
+                            <div
+                              className={`${
+                                ele.guaranteed ? "guaranteed" : ""
+                              } ${ele.certain ? "guaranteed" : ""}`}
+                            >{`${ele.guaranteed ? "成團" : ""} ${
+                              ele.certain ? "成團" : ""
+                            }`}</div>
+                            <div
+                              className={`${
+                                ele.status === "報名" ? "OGstatus" : "status"
+                              } ${
+                                ele.state === "報名" ? "OGstatus" : "status"
+                              }`}
+                            >
+                              {ele.status}
+                              {ele.state}
+                            </div>
+                            <div className="availableVancancy">
+                              可賣：{ele.availableVancancy}
+                              {ele.onsell}
+                            </div>
+                            <div className="totalVacnacy">
+                              團位：{ele.totalVacnacy}
+                              {ele.total}
+                            </div>
+                            <div className="price">${aryPrice}</div>
+                          </div>
+                        </React.Fragment>
+                      );
+                    }
+                  })
+                );
+              }
+            })}
+
             {node3}
           </div>
         </div>
