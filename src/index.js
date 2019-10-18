@@ -10,7 +10,7 @@ class Calendar extends React.Component {
     ary2: "",
     ary3: "",
     ary4: "",
-    calendar: false
+    calendar: true
   };
   componentDidMount = async () => {
     const data1 = await fetch("./data1.json").then(response => response.json());
@@ -49,6 +49,7 @@ class Calendar extends React.Component {
   };
 
   render() {
+    const { ary1, ary2, ary3, ary4 } = this.state;
     const props = {
       // 資料來源的輸入接口 [ array | string ] 如果是 string的話，請輸入網址
       dataSource: {
@@ -63,10 +64,19 @@ class Calendar extends React.Component {
       // 就要找相近的年月，若前一個月後一個月都有資料，就顯示資料比數比較多的那一個月
       initYearMonth: "201709",
       // 設定各資料的key
-      calendarData1: this.state.ary1,
-      calendarData2: this.state.ary2,
-      calendarData3: this.state.ary3,
-      calendarData4: this.state.ary4,
+      dataKeySetting: {
+        // 保證出團
+        guaranteed: "certain",
+        // 狀態
+        status: "state",
+        // 可賣團位
+        available: "onsell",
+        // 團位
+        total: "totalVacnacy",
+        // 價格
+        price: "price"
+      },
+      calendarData: ary2,
       calendar: this.state.calendar
     };
     console.log(this.props.initYear);
