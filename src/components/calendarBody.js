@@ -85,8 +85,8 @@ class CalendarBody extends Component {
     }
 
     let tmpAry =
-      this.props.calendarData3 &&
-      this.props.calendarData3.map(ele => {
+      this.props.calendarData &&
+      this.props.calendarData.map(ele => {
         let dtyear = parseInt(moment(ele.date).format("YYYY"));
         let dtmonth = parseInt(moment(ele.date).format("MM"));
         return {
@@ -128,8 +128,8 @@ class CalendarBody extends Component {
     }
 
     let tmpAry =
-      this.props.calendarData3 &&
-      this.props.calendarData3.map(ele => {
+      this.props.calendarData &&
+      this.props.calendarData.map(ele => {
         let dtyear = parseInt(moment(ele.date).format("YYYY"));
         let dtmonth = parseInt(moment(ele.date).format("MM"));
         let dtday = parseInt(moment(ele.date).format("DD"));
@@ -191,14 +191,14 @@ class CalendarBody extends Component {
     // );
 
     // let dtdt = moment("2019/10/5").format("YYYY");
-    // this.props.calendarData3 &&
-    //   this.props.calendarData3.map(ele => {
+    // this.props.calendarData &&
+    //   this.props.calendarData.map(ele => {
     //     let dtyear = moment(ele.date).format("YYYY");
     //     let dtmonth = moment(ele.date).format("MM");
     //     let dtday = moment(ele.date).format("DD");
     //   });
 
-    // console.log("IIII", this.props.calendarData3);
+    // console.log("IIII", this.props.calendarData);
     let array1 = [];
     let array2 = [];
     let array3 = [];
@@ -228,8 +228,8 @@ class CalendarBody extends Component {
       );
     });
 
-    // this.props.calendarData3 &&
-    // this.props.calendarData3.map(ele => {
+    // this.props.calendarData &&
+    // this.props.calendarData.map(ele => {
     //   let dtyear = moment(ele.date).format("YYYY");
     //   let dtmonth = moment(ele.date).format("MM");
     //   let dtday = moment(ele.date).format("DD");
@@ -261,8 +261,8 @@ class CalendarBody extends Component {
     // });
 
     // let node2 = array2.map(item => {
-    //   this.props.calendarData3 &&
-    //     this.props.calendarData3.map(ele => {
+    //   this.props.calendarData &&
+    //     this.props.calendarData.map(ele => {
     //       let dtyear = moment(ele.date).format("YYYY");
     //       let dtmonth = moment(ele.date).format("MM");
     //       let dtday = moment(ele.date).format("DD");
@@ -351,8 +351,8 @@ class CalendarBody extends Component {
                     }`}
                   >
                     <span className="date">{item}</span>
-                    {this.props.calendarData3 &&
-                      this.props.calendarData3.map(ele => {
+                    {this.props.calendarData &&
+                      this.props.calendarData.map(ele => {
                         let dtyear = parseInt(moment(ele.date).format("YYYY"));
                         let dtmonth = parseInt(moment(ele.date).format("MM"));
                         let dtday = parseInt(moment(ele.date).format("DD"));
@@ -411,8 +411,8 @@ class CalendarBody extends Component {
                 );
               } else {
                 return (
-                  this.props.calendarData3 &&
-                  this.props.calendarData3.map(ele => {
+                  this.props.calendarData &&
+                  this.props.calendarData.map(ele => {
                     let dtyear = parseInt(moment(ele.date).format("YYYY"));
                     let dtmonth = parseInt(moment(ele.date).format("MM"));
                     let dtday = parseInt(moment(ele.date).format("DD"));
