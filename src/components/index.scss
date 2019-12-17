@@ -147,7 +147,7 @@ table {
   position: relative;
   width: calc(100% / 7);
   box-sizing: border-box;
-  border: #eeeeee 1px solid;
+  border: #eeeeee 0.5px solid;
   background-color: white;
   height: 85px;
   font-size: 12px;
@@ -189,19 +189,22 @@ table {
     position: absolute;
     left: 5px;
     top: 25px;
+    color: #ff7800;
   }
   .OGstatus {
     position: absolute;
     left: 5px;
     top: 25px;
-    color: #ff7800;
+    color: #24a07c;
   }
-  .availableVancancy {
+  .availableVancancy,
+  .onsell {
     position: absolute;
     left: 5px;
     top: 40px;
   }
-  .totalVacnacy {
+  .totalVacnacy,
+  .total {
     position: absolute;
     left: 5px;
     top: 55px;
@@ -245,7 +248,7 @@ table {
     position: absolute;
     right: 5px;
     top: 5px;
-    color: #ff7800;
+    color: #24a07c;
   }
   .price {
     position: absolute;
@@ -263,10 +266,12 @@ table {
     top: 5px;
     left: 195px;
   }
-  .status {
+  .status,
+  .state {
     position: absolute;
     right: 5px;
     top: 5px;
+    color: #ff7800;
   }
   .guaranteed {
     position: absolute;
@@ -298,7 +303,8 @@ table {
   background-color: white;
   border-top: #f4f4f4 1px solid;
   border-bottom: #f4f4f4 1px solid;
-  font-family: DFKai-sb;
+  font-family: Verdana, Arial, \\5fae\8edf\6b63\9ed1\9ad4, Microsoft JhengHei,
+    \\5fae\8edf\96c5\9ed1\9ad4, Microsoft YaHei !important;
 }
 .main.table {
   display: flex;
@@ -326,30 +332,28 @@ table {
   display: block;
   .triangle-left {
     position: absolute;
-    margin: 2px;
     border-style: solid;
     border-width: 15px 15px 0;
     border-color: red transparent transparent;
     left: 0px;
-    top: 15px;
+    top: 18px;
     transform: rotate(90deg);
     cursor: pointer;
   }
   .triangle-right {
     position: absolute;
-    margin: 2px;
     border-style: solid;
     border-width: 15px 15px 0;
     border-color: red transparent transparent;
     right: 0px;
-    top: 15px;
+    top: 18px;
     transform: rotate(-90deg);
     cursor: pointer;
   }
 }
 
 .ntb {
-  // width: calc(45vw - 45px);
+  width: calc(100% - 45px);
   padding-left: 80px;
   cursor: pointer;
   .title {
