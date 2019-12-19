@@ -3,9 +3,11 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import CalendarBody from "./components/calendarBody";
 import Modle from "./components/Modle";
+import Calendar from "./components/Calendar";
+import "./styles/style.scss";
 import * as moment from "moment";
 
-class Calendar extends React.Component {
+class App extends React.Component {
   state = {
     ary1: "",
     ary2: "",
@@ -78,11 +80,13 @@ class Calendar extends React.Component {
     return (
       <React.Fragment>
         <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
-        <CalendarBody {...props} />
+        <CalendarBody {...props}/>
+        <div className='currentday'>我是分隔線</div>
+        <Calendar {...props}/>
       </React.Fragment>
     );
   }
 }
-ReactDOM.render(<Calendar />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
 
 serviceWorker.unregister();
