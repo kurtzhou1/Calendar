@@ -2,15 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import CalendarBody from "./components/calendarBody";
+import Modle from "./components/Modle";
+import Calendar from "./components/Calendar";
+import "./styles/style.scss";
 import * as moment from "moment";
 
-class Calendar extends React.Component {
+class App extends React.Component {
   state = {
     ary1: "",
     ary2: "",
     ary3: "",
     ary4: "",
-    calendar: true
+    isCalendar: true
   };
   componentDidMount = async () => {
     const data1 = await fetch("./data1.json").then(response => response.json());
@@ -36,15 +39,9 @@ class Calendar extends React.Component {
     this.setState({ ary1: array1, ary2: array2, ary3: array3, ary4: array4 });
   };
 
-  // handleFilterUpdate = (filterYear, filterMonth) => {
-  //   this.setState({
-  //     year: 2019,
-  //     month: 1
-  //   });
-  // };
-  calendar = () => {
+  changeModle = () => {
     this.setState({
-      calendar: !this.state.calendar
+      isCalendar: !this.state.isCalendar
     });
   };
 
@@ -77,28 +74,19 @@ class Calendar extends React.Component {
         price: "price"
       },
       calendarData: ary2,
-      calendar: this.state.calendar
+      calendar: this.state.isCalendar
     };
-    console.log(this.props.initYear);
-    // console.log("CData2", this.state.ary);
-
+    console.log('index:::',this.state.isCalendar)
     return (
       <React.Fragment>
-        <div className="colume">
-          <h2
-            className={`title ${this.state.calendar ? "calendar" : "strip"}`}
-            onClick={() => {
-              this.calendar();
-            }}
-          >
-            切換列表顯示
-          </h2>
-        </div>
-        <CalendarBody {...props} />
+        <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
+        <CalendarBody {...props}/>
+        <div className='currentday'>我是分隔線</div>
+        <Calendar {...props}/>
       </React.Fragment>
     );
   }
 }
-ReactDOM.render(<Calendar />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
 
 serviceWorker.unregister();
