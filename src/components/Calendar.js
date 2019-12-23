@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import * as moment from "moment";
+import moment from "moment";
+
+
+import Tabs from "./Tabs";
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
+    const selectedYearMonth = moment(props.initYearMonth, 'YYYYMM');
+    const prevMonth = selectedYearMonth.clone().subtract(1, "month");
+    const nextMonth = selectedYearMonth.clone().add(1, "month");
     this.state = {
+      months: [prevMonth,selectedYearMonth,nextMonth],
       week: [
         "星期日",
         "星期一",
@@ -19,7 +26,16 @@ class Calendar extends Component {
       hasData: "",
       className: 'Calendar'
     };
+
   }
+
+  state = {
+    months: [],
+    // Middle Show Month Index
+    mMonth: 1,
+    thisYear: 2020,
+    thisMonth: 1
+  };
 
   getMonthDays = () => {
     //根據年月取得當月的天數
@@ -66,6 +82,14 @@ class Calendar extends Component {
   }
   
   render(){
+    // <Tabs
+    //   months={months}
+    //   mMonth={mMonth}
+    //   targetMonth={targetMonth}
+    //   handlePrevMonth={handlePrevMonth}
+    //   handleNextMonth={handleNextMonth}
+    //   handleTargetMonth={handleTargetMonth}
+    // />
     console.log('here:::',this.getMonthDays(),this.getFirstDayWeek())
     const {className, week} = this.state; 
     let firstDayWeek = this.getFirstDayWeek();
@@ -108,17 +132,22 @@ class Calendar extends Component {
     return <div className={`week ${this.props.calendar ? "calendarMoudle" : "stripMoudle"}`}>{i}</div>
     })
     return(
+
+     
         <div className={`${className} wrapper`}>
           {weekday}
           {prevLackBlock}
           {dateBlock}
           {restLackBlock}
         </div>
+
     )
   }
-
-  
 }
 
+const mapDispatchToProps = {
+  nextYearMonth: actions.handleNextMonth,
+  prevYearMonth: actions.handlePrevMonth
+};
 
-export default Calendar;
+export default connect(mapDispatchToProps)(Calendar);
