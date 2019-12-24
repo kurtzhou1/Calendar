@@ -2,7 +2,7 @@
 import * as types from '../constants/action-types'
 
 export const handlePrevMonth = () => ({ type: types.HANDLE_PREV_MONTH});
-export const handleNextMonth = () => ({ type: HANDLE_NEXT_MONTH});
+export const handleNextMonth = () => ({ type: types.HANDLE_NEXT_MONTH});
   
   export const handleTargetMonth = index => {
     return {
