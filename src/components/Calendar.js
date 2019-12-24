@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import * as moment from "moment";
+
+
+import * as actions from "../actions/tabsAction";
+import { connect } from "react-redux";
+import Tabs from "./Tabs";
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
+    const selectedYearMonth = this.props.thisYearMonth;
+    const prevMonth = selectedYearMonth.clone().subtract(1, "month");
+    const nextMonth = selectedYearMonth.clone().add(1, "month");
     this.state = {
+      months: [prevMonth,selectedYearMonth,nextMonth],
       week: [
         "星期日",
         "星期一",
@@ -14,10 +22,12 @@ class Calendar extends Component {
         "星期五",
         "星期六"
       ],
-      thisYear: 2020,
-      thisMonth: 1,
+      // thisYear: 2020,
+      // thisMonth: 1,
       hasData: "",
-      className: 'Calendar'
+      className: 'Calendar',
+      thisYear: selectedYearMonth.format('YYYY'),
+      thisMonth: selectedYearMonth.format('MM')
     };
   }
 
@@ -38,20 +48,10 @@ class Calendar extends Component {
     return weekday;
   };
 
-  handLeft = () => {
-    let prevMonth = parseInt(this.state.thisMonth) - 1;
-    let thisYear = parseInt(this.state.thisYear);
-    if (prevMonth < 1) {
-      thisYear--;
-      prevMonth = 12;
-    }
-  
-    this.setState({
-      thisYear: thisYear,
-      thisMonth: prevMonth,
-      });
-  
+  prevMonth = () => {
+    this.props.prevYearMonth();
   };
+
   handRight = () => {
     let nextMonth = parseInt(this.state.thisMonth) + 1;
     let thisYear = parseInt(this.state.thisYear);
@@ -66,6 +66,14 @@ class Calendar extends Component {
   }
   
   render(){
+    // <Tabs
+    //   months={months}
+    //   mMonth={mMonth}
+    //   targetMonth={targetMonth}
+    //   handlePrevMonth={handlePrevMonth}
+    //   handleNextMonth={handleNextMonth}
+    //   handleTargetMonth={handleTargetMonth}
+    // />
     console.log('here:::',this.getMonthDays(),this.getFirstDayWeek())
     const {className, week} = this.state; 
     let firstDayWeek = this.getFirstDayWeek();
@@ -109,16 +117,53 @@ class Calendar extends Component {
     })
     return(
         <div className={`${className} wrapper`}>
+             <div className="headerborder">
+                <div className="arrow left">
+                  <span
+                    className="triangle-left"
+                    onClick={() => 
+                      this.prevMonth()}
+                  ></span>
+                </div>
+                <ul className="ntb">
+                  {
+                    this.state.months.map(month => {
+                      return <li
+                            className={"tab title" + (month.isSame(this.props.selectedYearMonth) ? " now" : " now")}
+                            key={month.format('YYYY MM')}>
+                            <a href="#" onClick={() => this.updateYearMonth(month)}><span>{month.format('YYYY MMM')}</span></a>
+                      </li>
+                    })
+                  }
+                </ul>
+                {/* <div className="arrow right">
+                  <span
+                    className="triangle-right"
+                    onClick={() => 
+                      this.handRight()}
+                  ></span>
+                </div> */}
+            </div>
           {weekday}
           {prevLackBlock}
           {dateBlock}
           {restLackBlock}
         </div>
+
     )
   }
-
-  
 }
 
+const mapStateToProps = state => {
+  return {
+    // selectedYearMonth: state.selectedYearMonth,
+    thisYearMonth: state.thisYearMonth
+  };
+};
 
-export default Calendar;
+const mapDispatchToProps = {
+  nextYearMonth: actions.handleNextMonth,
+  prevYearMonth: actions.handlePrevMonth
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Calendar);

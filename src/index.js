@@ -7,7 +7,15 @@ import Calendar from "./components/Calendar";
 import "./styles/style.scss";
 import * as moment from "moment";
 
-class App extends React.Component {
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducer from './reducers/calendarReducer';
+// import store from './store/configureStore';
+
+const store = createStore(reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+  class App extends React.Component {
   state = {
     ary1: "",
     ary2: "",
@@ -78,12 +86,12 @@ class App extends React.Component {
     };
     console.log('index:::',this.state.isCalendar)
     return (
-      <React.Fragment>
+      <Provider store={store}>
         <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
         <CalendarBody {...props}/>
         <div className='currentday'>我是分隔線</div>
-        <Calendar {...props}/>
-      </React.Fragment>
+          <Calendar {...props}/>
+      </Provider>
     );
   }
 }
