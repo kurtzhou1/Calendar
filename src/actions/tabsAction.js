@@ -1,12 +1,8 @@
-// import {HANDLE_PREV_MONTH,HANDLE_NEXT_MONTH,HANDLE_TARGET_MONTH} from '../constants/action-types'
-import * as types from '../constants/action-types'
+import * as types from "../constants/action-types"
 
-export const handlePrevMonth = () => ({ type: types.HANDLE_PREV_MONTH});
-export const handleNextMonth = () => ({ type: types.HANDLE_NEXT_MONTH});
-  
-  export const handleTargetMonth = index => {
-    return {
-      type: types.HANDLE_TARGET_MONTH,
-      index
-    }
-  }
+export const prevYearMonth = () => ({ type: types.PREV_YEARMONTH });
+export const nextYearMonth = () => ({ type: types.NEXT_YEARMONTH });
+export const gotoYearMonth = (yearMonth) => {
+  console.log('sandy:::',yearMonth)
+  return{ type: types.GOTO_YEARMONTH, yearMonth }};
+export const updatePlans = (plans) => ({ type: types.UPDATE_PLANS, plans });

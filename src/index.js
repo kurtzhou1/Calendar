@@ -9,12 +9,11 @@ import * as moment from "moment";
 
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import reducer from './reducers/calendarReducer';
+import reducer from './reducers/';
 // import store from './store/configureStore';
 
 const store = createStore(reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
   class App extends React.Component {
   state = {
     ary1: "",
@@ -67,7 +66,7 @@ const store = createStore(reducer,
       },
       // 輸入一開始要在哪一個月份 [string] YYYYMM，若輸入的年月沒有資料，
       // 就要找相近的年月，若前一個月後一個月都有資料，就顯示資料比數比較多的那一個月
-      initYearMonth: "201709",
+      initYearMonth: "202001",
       // 設定各資料的key
       dataKeySetting: {
         // 保證出團
@@ -90,7 +89,7 @@ const store = createStore(reducer,
         <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
         <CalendarBody {...props}/>
         <div className='currentday'>我是分隔線</div>
-          <Calendar {...props}/>
+        <Calendar {...props}/>
       </Provider>
     );
   }
