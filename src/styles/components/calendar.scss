@@ -11,6 +11,16 @@
                 justify-content: center;
                 width: 100%;
                 padding: 0px;
+                background: #B0C4B1;
+                >li{
+                    border-top: 3px solid #B0C4B1;
+                }
+                .tab.title{
+                    &.now{
+                        color: #F7E1D7;
+                        background: #4A5759;
+                    }
+                }
             }
         }
         .CalendarGrid{
@@ -20,7 +30,7 @@
                 background: #4A5759;
                 width: calc(100%/7);
                 padding: 5px;
-                color: #EDAFB8;
+                color: #B0C4B1;
                 font-weight: bold;
                 border: 0.5px solid #4A5759;
                 box-sizing: border-box;
@@ -54,5 +64,11 @@
                 font-size: 1px !important;
             }
         }
+    }
+    .arrow .triangle-right{
+        border-color: #EDAFB8 transparent transparent;
+    }
+    .arrow .triangle-left{
+        border-color: #EDAFB8 transparent transparent;
     }
 }

@@ -20,8 +20,8 @@ export interface IProps{
 }
 
 const CalendarGrid:React.FC<IProps> = props => {
-    const {selectedYearMonth ,getDays,lackDays,firstDayWeek,selectedPlans } = props
-    console.log('selectedPlans2:::',selectedYearMonth)
+    const {getDays,lackDays,firstDayWeek,selectedPlans } = props
+
     let week= ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
     let prevLackDays = [];
     let restLackDays = [];
