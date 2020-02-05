@@ -228,65 +228,6 @@ class CalendarBody extends Component {
       );
     });
 
-    // this.props.calendarData &&
-    // this.props.calendarData.map(ele => {
-    //   let dtyear = moment(ele.date).format("YYYY");
-    //   let dtmonth = moment(ele.date).format("MM");
-    //   let dtday = moment(ele.date).format("DD");
-    //   return (
-    //     <React.Fragment>
-    //       <div className={`${ele.guaranteed ? "guaranteed" : ""}`}>{`${
-    //         ele.guaranteed ? "成團" : ""
-    //       }`}</div>
-    //       <div className="status">{ele.status}</div>
-    //       <div className="availableVancancy">
-    //         可賣：{ele.availableVancancy}
-    //       </div>
-    //       <div className="totalVacnacy">團位：{ele.totalVacnacy}</div>
-    //       <div className="price">{ele.price}</div>
-    //     </React.Fragment>
-    //   );
-    // });
-
-    // let node2 = array2.map(item => {
-    //   return (
-    //     <div
-    //       className={`currentday ${
-    //         dtyear === year && dtmonth === month && dtday === item ? "GG" : "HH"
-    //       }`}
-    //     >
-    //       <span className="date">{item}</span>
-    //     </div>
-    //   );
-    // });
-
-    // let node2 = array2.map(item => {
-    //   this.props.calendarData &&
-    //     this.props.calendarData.map(ele => {
-    //       let dtyear = moment(ele.date).format("YYYY");
-    //       let dtmonth = moment(ele.date).format("MM");
-    //       let dtday = moment(ele.date).format("DD");
-    //       // console.log("test1", dtyear, dtmonth, dtday);
-    //       // console.log("test2", year, month, item);
-    //       if (true) {
-    //         return (
-    //           <React.Fragment>
-    //             {/* <div
-    //             className={`currentday ${
-    //               dtyear === year && dtmonth === month && dtday === item
-    //                 ? "GG"
-    //                 : "HH"
-    //             }`}
-    //           >
-    //             <span className="date">{item}</span>
-    //           </div> */}
-    //             <div>{item}</div>
-    //           </React.Fragment>
-    //         );
-    //       }
-    //     });
-    // });
-
     let node3 = array3.map(() => {
       return (
         <div

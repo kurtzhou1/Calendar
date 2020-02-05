@@ -4,39 +4,71 @@
         display: flex;
         flex-flow:row wrap;
         font-family:Microsoft JhengHei;
-        .week{
-            background: #4A5759;
-            width: calc(100%/7);
-            padding: 5px;
-            color: #EDAFB8;
-            font-weight: bold;
-            border: 0.5px solid #4A5759;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .block.calendarMoudle{
-            background: #DEDBD2;
-            width: calc(100%/7);
-            height: 85px;
-            border: 0.5px solid #4A5759;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-        .date.calendarMoudle{
-            background: #B0C4B1;
-            width: calc(100%/7);
-            height: 85px;
-            color: #4A5759;
-            font-weight: bold;
-            border: 0.5px solid #4A5759;
-            padding: 5px;
-            box-sizing: border-box;
-            &:hover{
-                background: #4A5759;
-                color: #F7E1D7;
+        .headerborder{
+            width: 100%;
+            .ntb{
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                padding: 0px;
+                background: #B0C4B1;
+                >li{
+                    border-top: 3px solid #B0C4B1;
+                }
+                .tab.title{
+                    &.now{
+                        color: #F7E1D7;
+                        background: #4A5759;
+                    }
+                }
             }
         }
+        .CalendarGrid{
+            display: flex;
+            flex-flow:row wrap;
+            .week{
+                background: #4A5759;
+                width: calc(100%/7);
+                padding: 5px;
+                color: #B0C4B1;
+                font-weight: bold;
+                border: 0.5px solid #4A5759;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .block.calendarMoudle{
+                background: #DEDBD2;
+                width: calc(100%/7);
+                height: 85px;
+                border: 0.5px solid #4A5759;
+                padding: 5px;
+                box-sizing: border-box;
+            }
+            .date.calendarMoudle{
+                background: #B0C4B1;
+                width: calc(100%/7);
+                height: 85px;
+                color: #4A5759;
+                font-weight: bold;
+                border: 0.5px solid #4A5759;
+                padding: 5px;
+                box-sizing: border-box;
+                &:hover{
+                    background: #4A5759;
+                    color: #F7E1D7;
+                }
+            }
+            .day{
+                font-size: 1px !important;
+            }
+        }
+    }
+    .arrow .triangle-right{
+        border-color: #EDAFB8 transparent transparent;
+    }
+    .arrow .triangle-left{
+        border-color: #EDAFB8 transparent transparent;
     }
 }

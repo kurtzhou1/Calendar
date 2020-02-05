@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 
-
 import * as actions from "../actions/tabsAction";
 import { connect } from "react-redux";
-import Tabs from "./Tabs";
+import moment from "moment";
 
-class Calendar extends Component {
+class Calendar2 extends Component {
   constructor(props) {
     super(props);
-    const selectedYearMonth = this.props.thisYearMonth;
+    const selectedYearMonth = moment(props.initYearMonth,'YYYYMM');
     const prevMonth = selectedYearMonth.clone().subtract(1, "month");
     const nextMonth = selectedYearMonth.clone().add(1, "month");
+    console.log('selectedYearMonth:::',props.initYearMonth,prevMonth,nextMonth)
     this.state = {
-      months: [prevMonth,selectedYearMonth,nextMonth],
       week: [
         "星期日",
         "星期一",
@@ -22,13 +21,36 @@ class Calendar extends Component {
         "星期五",
         "星期六"
       ],
-      // thisYear: 2020,
-      // thisMonth: 1,
-      hasData: "",
+      months: [prevMonth,selectedYearMonth,nextMonth],
       className: 'Calendar',
       thisYear: selectedYearMonth.format('YYYY'),
       thisMonth: selectedYearMonth.format('MM')
     };
+    props.gotoYearMonth(selectedYearMonth);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log ('susu',prevProps.selectedYearMonth,this.props.selectedYearMonth)
+    if (prevProps.selectedYearMonth === this.props.selectedYearMonth) {
+        return;
+    }
+
+    // const { selectedYearMonth } = this.props;
+
+    // if (selectedYearMonth.format("YYYYMM") !== this.state.yearMonthList[0] &&
+    //     selectedYearMonth.format("YYYYMM") !== this.state.yearMonthList[this.state.yearMonthList.length - 1]
+    // ) {
+    //     let prevMonth = selectedYearMonth.clone().subtract(1, "month");
+    //     let nextMonth = selectedYearMonth.clone().add(1, "month");
+    //     this.setState({months: [prevMonth, selectedYearMonth, nextMonth]});
+    // }
+
+    // this.props.updatePlans(this.state.plans.get(selectedYearMonth.format("YYYYMM")));
+}
+
+  updateYearMonth(currentYearMonth) {
+    console.log('momo::',currentYearMonth)
+    this.props.gotoYearMonth(currentYearMonth);
   }
 
   getMonthDays = () => {
@@ -48,33 +70,31 @@ class Calendar extends Component {
     return weekday;
   };
 
-  prevMonth = () => {
+  prevYearMonth = () => {
+    let { selectedYearMonth } = this.props 
+    let prevMonth = selectedYearMonth.clone().subtract(1, "month");
+    let nextMonth = selectedYearMonth.clone().add(1, "month");
     this.props.prevYearMonth();
+    this.setState({
+      thisYear:selectedYearMonth.format('YYYY'),
+      thisMonth:selectedYearMonth.format('MM'),
+      months: [prevMonth, selectedYearMonth, nextMonth]
+    })
   };
 
-  handRight = () => {
-    let nextMonth = parseInt(this.state.thisMonth) + 1;
-    let thisYear = parseInt(this.state.thisYear);
-    if (nextMonth > 12) {
-      thisYear++;
-      nextMonth = 1;
-    }
+  nextYearMonth = () => {
+    let { selectedYearMonth } = this.props 
+    let prevMonth = selectedYearMonth.clone().subtract(1, "month");
+    let nextMonth = selectedYearMonth.clone().add(1, "month");
+    this.props.nextYearMonth();
     this.setState({
-      thisYear: thisYear,
-      thisMonth: nextMonth,
-    });
-  }
+      thisYear:this.props.selectedYearMonth.format('YYYY'),
+      thisMonth:this.props.selectedYearMonth.format('MM'),
+      months: [prevMonth, selectedYearMonth, nextMonth]
+    })
+}
   
   render(){
-    // <Tabs
-    //   months={months}
-    //   mMonth={mMonth}
-    //   targetMonth={targetMonth}
-    //   handlePrevMonth={handlePrevMonth}
-    //   handleNextMonth={handleNextMonth}
-    //   handleTargetMonth={handleTargetMonth}
-    // />
-    console.log('here:::',this.getMonthDays(),this.getFirstDayWeek())
     const {className, week} = this.state; 
     let firstDayWeek = this.getFirstDayWeek();
     let getDays = this.getMonthDays();
@@ -122,32 +142,34 @@ class Calendar extends Component {
                   <span
                     className="triangle-left"
                     onClick={() => 
-                      this.prevMonth()}
+                      this.prevYearMonth()}
                   ></span>
                 </div>
                 <ul className="ntb">
                   {
                     this.state.months.map(month => {
                       return <li
-                            className={"tab title" + (month.isSame(this.props.selectedYearMonth) ? " now" : " now")}
+                            className={"tab title" + (month.isSame(this.props.selectedYearMonth) ? " now" : " null")}
                             key={month.format('YYYY MM')}>
-                            <a href="#" onClick={() => this.updateYearMonth(month)}><span>{month.format('YYYY MMM')}</span></a>
+                            <a href="#" onClick={() => this.updateYearMonth(month)}><span>{month.format('YYYY MM')}</span></a>
                       </li>
                     })
                   }
                 </ul>
-                {/* <div className="arrow right">
+                <div className="arrow right">
                   <span
                     className="triangle-right"
                     onClick={() => 
-                      this.handRight()}
+                      this.nextYearMonth()}
                   ></span>
-                </div> */}
+                </div>
             </div>
+          <div className='CalendarGrid'>
           {weekday}
           {prevLackBlock}
           {dateBlock}
           {restLackBlock}
+          </div>
         </div>
 
     )
@@ -156,14 +178,19 @@ class Calendar extends Component {
 
 const mapStateToProps = state => {
   return {
-    // selectedYearMonth: state.selectedYearMonth,
-    thisYearMonth: state.thisYearMonth
+      // selectedPlans: state.selectedPlans,
+      selectedYearMonth: state.selectedYearMonth
   };
 };
 
 const mapDispatchToProps = {
-  nextYearMonth: actions.handleNextMonth,
-  prevYearMonth: actions.handlePrevMonth
+  nextYearMonth: actions.nextYearMonth,
+  prevYearMonth: actions.prevYearMonth,
+  gotoYearMonth: actions.gotoYearMonth
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Calendar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Calendar2);
+

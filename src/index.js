@@ -1,20 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import * as serviceWorker from "./serviceWorker";
 import CalendarBody from "./components/calendarBody";
 import Modle from "./components/Modle";
-import Calendar from "./components/Calendar";
+
 import "./styles/style.scss";
 import * as moment from "moment";
 
+import Calendar2 from "./components/Calendar2";
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import reducer from './reducers/calendarReducer';
+import reducer from './reducers/';
 // import store from './store/configureStore';
+
+import Calendar3 from "./components/Calendar";
+import data from "./data/data2.json"
 
 const store = createStore(reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
   class App extends React.Component {
   state = {
     ary1: "",
@@ -67,7 +69,7 @@ const store = createStore(reducer,
       },
       // 輸入一開始要在哪一個月份 [string] YYYYMM，若輸入的年月沒有資料，
       // 就要找相近的年月，若前一個月後一個月都有資料，就顯示資料比數比較多的那一個月
-      initYearMonth: "201709",
+      initYearMonth: "201701",
       // 設定各資料的key
       dataKeySetting: {
         // 保證出團
@@ -77,24 +79,26 @@ const store = createStore(reducer,
         // 可賣團位
         available: "onsell",
         // 團位
-        total: "totalVacnacy",
+        total: "total",
         // 價格
         price: "price"
       },
-      calendarData: ary2,
+      calendarData: data,
       calendar: this.state.isCalendar
     };
-    console.log('index:::',this.state.isCalendar)
+ 
     return (
-      <Provider store={store}>
+      <div>
         <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
-        <CalendarBody {...props}/>
-        <div className='currentday'>我是分隔線</div>
-          <Calendar {...props}/>
-      </Provider>
-    );
+        <Calendar3 {...props}/>
+      </div>
+        // <Provider store={store}>
+        //   <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
+        //   <CalendarBody {...props}/>
+        //   <div className='currentday'>我是分隔線</div>
+        //   <Calendar2 {...props}/>
+        // </Provider>
+    )
   }
 }
 ReactDOM.render(<App />, document.getElementById("root"));
-
-serviceWorker.unregister();
