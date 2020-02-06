@@ -58,15 +58,14 @@ const Calendar3:React.FC<IProps> = props => {
                 return 0;
             } else if (plan1.date.isAfter(plan2.date)) {
                 return 1;
-                
             } else {
                 return -1;
             }
         }));
         //排列當月的日的順序，小的在前面
+        console.log([plans])
         return plans;
     }
-  
     let plans:any =  processDataSource(props.calendarData)
     const [selectedPlans,changePlan] = React.useState(plans.get(props.initYearMonth)) //出團資料
     let maxDate = Math.max(...plans.keys())
@@ -76,6 +75,7 @@ const Calendar3:React.FC<IProps> = props => {
     const months = [prevMonth,selectedYearMonth,nextMonth]
     React.useEffect(()=>{
         changePlan(plans.get(selectedYearMonth.format('YYYYMM')))
+        console.log('selectedYearMonth',selectedPlans)
     },[selectedYearMonth])
 
     const changePrevMonth = () =>(
@@ -142,7 +142,7 @@ const Calendar3:React.FC<IProps> = props => {
         firstDayWeek={selectedYearMonth.day()}
         lackDays={42 - selectedYearMonth.day() - selectedYearMonth.daysInMonth()}
         selectedPlans={selectedPlans}/> :
-        <CalendarList />}
+        <CalendarList selectedPlans={selectedPlans}/>}
     </div>
     )
 }
