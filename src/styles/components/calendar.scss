@@ -123,4 +123,23 @@
     .price{
         color:rgb(182, 135, 142);
     }
+    .prevPage{
+        position: absolute;
+        color: #4A5759;
+        font-weight: bold;
+        width: auto;
+        &:hover{
+            color: #EDAFB8;
+        }
+    }
+    .nextPage{
+        position: absolute;
+        color: #4A5759;
+        font-weight: bold;
+        width: auto;
+        right: 0px;
+        &:hover{
+            color: #EDAFB8;
+        }
+    }
 }

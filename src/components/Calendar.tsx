@@ -63,7 +63,6 @@ const Calendar3:React.FC<IProps> = props => {
             }
         }));
         //排列當月的日的順序，小的在前面
-        console.log([plans])
         return plans;
     }
     let plans:any =  processDataSource(props.calendarData)
@@ -75,7 +74,6 @@ const Calendar3:React.FC<IProps> = props => {
     const months = [prevMonth,selectedYearMonth,nextMonth]
     React.useEffect(()=>{
         changePlan(plans.get(selectedYearMonth.format('YYYYMM')))
-        console.log('selectedYearMonth',selectedPlans)
     },[selectedYearMonth])
 
     const changePrevMonth = () =>(
