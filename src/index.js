@@ -23,13 +23,13 @@ const store = createStore(reducer,
     ary2: "",
     ary3: "",
     ary4: "",
-    isCalendar: true
+    isCalendar: false
   };
   componentDidMount = async () => {
-    const data1 = await fetch("./data1.json").then(response => response.json());
-    const data2 = await fetch("./data2.json").then(response => response.json());
-    const data3 = await fetch("./data3.json").then(response => response.json());
-    const data4 = await fetch("./data4.json").then(response => response.json());
+    const data1 = await fetch("./data/data1.json").then(response => response.json());
+    const data2 = await fetch("./data/data2.json").then(response => response.json());
+    const data3 = await fetch("./data/data3.json").then(response => response.json());
+    const data4 = await fetch("./data/data4.json").then(response => response.json());
     const set1 = new Set();
     const set2 = new Set();
     const set3 = new Set();
@@ -57,6 +57,10 @@ const store = createStore(reducer,
 
   render() {
     const { ary1, ary2, ary3, ary4 } = this.state;
+    //calendar3資料處理
+    const set = new Set();
+    const calendar3Data = data.filter(item => !set.has(item.date) ? set.add(item.date):false)
+
     const props = {
       // 資料來源的輸入接口 [ array | string ] 如果是 string的話，請輸入網址
       dataSource: {
@@ -69,7 +73,7 @@ const store = createStore(reducer,
       },
       // 輸入一開始要在哪一個月份 [string] YYYYMM，若輸入的年月沒有資料，
       // 就要找相近的年月，若前一個月後一個月都有資料，就顯示資料比數比較多的那一個月
-      initYearMonth: "201701",
+      initYearMonth: "201711",
       // 設定各資料的key
       dataKeySetting: {
         // 保證出團
@@ -83,7 +87,7 @@ const store = createStore(reducer,
         // 價格
         price: "price"
       },
-      calendarData: data,
+      calendarData: calendar3Data,
       calendar: this.state.isCalendar
     };
  

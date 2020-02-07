@@ -11,9 +11,9 @@
                 justify-content: center;
                 width: 100%;
                 padding: 0px;
-                background: #B0C4B1;
+                background: rgb(126, 141, 127);
                 >li{
-                    border-top: 3px solid #B0C4B1;
+                    border-top: 3px solid rgb(126, 141, 127);
                 }
                 .tab.title{
                     &.now{
@@ -30,7 +30,7 @@
                 background: #4A5759;
                 width: calc(100%/7);
                 padding: 5px;
-                color: #B0C4B1;
+                color: #F7E1D7;
                 font-weight: bold;
                 border: 0.5px solid #4A5759;
                 box-sizing: border-box;
@@ -39,7 +39,7 @@
                 align-items: center;
             }
             .block.calendarMoudle{
-                background: #DEDBD2;
+                background: #F7E1D7;
                 width: calc(100%/7);
                 height: 85px;
                 border: 0.5px solid #4A5759;
@@ -47,17 +47,24 @@
                 box-sizing: border-box;
             }
             .date.calendarMoudle{
-                background: #B0C4B1;
+                background: rgb(126, 141, 127);
                 width: calc(100%/7);
                 height: 85px;
-                color: #4A5759;
+                color: #F7E1D7;
                 font-weight: bold;
                 border: 0.5px solid #4A5759;
                 padding: 5px;
                 box-sizing: border-box;
                 &:hover{
                     background: #4A5759;
-                    color: #F7E1D7;
+                    color: #EDAFB8;
+                    border: 1px solid #EDAFB8;
+                }
+                .day{
+                    color: #EDAFB8;
+                    &:hover{
+                        color: #F7E1D7;
+                    }
                 }
             }
             .day{
@@ -70,5 +77,69 @@
     }
     .arrow .triangle-left{
         border-color: #EDAFB8 transparent transparent;
+    }
+}
+
+.currentday2{
+    position: relative;
+    background: #F7E1D7;
+    color: #4A5759;
+    &:hover{
+        background:#4A5759;
+        border: #66bb3c 1px solid;
+        color: #F7E1D7;
+    }
+    .date{
+        color:rgb(182, 135, 142);
+    }
+    .guaranteed {
+        position: absolute;
+        padding: 0 3px;
+        height: 20px;
+        color: #fff;
+        text-align: center;
+        line-height: 20px;
+        background-color: #EDAFB8;
+        left: 70px;
+        top: 35px;
+
+    }
+    .closed{
+        position: absolute;
+        line-height: 20px;
+        left: 70px;
+        top: 35px;
+        color: #EDAFB8
+    }
+    .status{
+        color:rgb(182, 135, 142);
+        padding: 0 3px;
+    }
+    .OGstatus{
+        background-color: #4A5759;
+        padding: 1px 3px;
+        color: #EDAFB8;
+    }
+    .price{
+        color:rgb(182, 135, 142);
+    }
+    .prevPage{
+        position: absolute;
+        color: #4A5759;
+        font-weight: bold;
+        width: auto;
+        &:hover{
+            color: #EDAFB8;
+        }
+    }
+    .nextPage{
+        position: absolute;
+        color: #4A5759;
+        font-weight: bold;
+        width: auto;
+        right: 0px;
+        &:hover{
+            color: #EDAFB8;
+        }
     }
 }

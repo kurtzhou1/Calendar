@@ -40,8 +40,8 @@ const CalendarGrid:React.FC<IProps> = props => {
     let restLackBlock = restLackDays.map(() =><div className="block calendarMoudle"></div>);
     let dateBlock = date.map(date1=>{
         return(
-        <div className="date calendarMoudle" key={`${date1}`}>{date1}{selectedPlans.map((date2:any)=>{
-            if(date1 === parseInt(date2.date.format('DD'))){
+        <div className="date calendarMoudle" key={date1}>{date1}{selectedPlans.map((date2:any)=>{
+            if(date1 === parseInt(date2.date.format('DD'))){                
                 return(
                 <div className="day">
                     <div className={date2.guaranteed ? "guaranteed" : ""}>{date2.guaranteed ? "成團" : "閉團"}</div>
