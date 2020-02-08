@@ -128,6 +128,7 @@
         color: #4A5759;
         font-weight: bold;
         width: auto;
+        left: 0px;
         &:hover{
             color: #EDAFB8;
         }
@@ -140,6 +141,13 @@
         right: 0px;
         &:hover{
             color: #EDAFB8;
+        }
+    }
+    .pageIndex{
+        display: flex;
+        justify-content: center;
+        .page{
+            margin: 0 3px;
         }
     }
 }

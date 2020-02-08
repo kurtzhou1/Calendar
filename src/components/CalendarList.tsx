@@ -22,13 +22,18 @@ const  CalendarList:React.FC<IProps> = props =>{
     const [currentPage , changePage] = useState(1)
     const begin = (currentPage-1) * PLANS_PER_PAGE
     const [showPlans , changePlans] = useState(props.selectedPlans.slice(begin, PLANS_PER_PAGE * currentPage))
-    console.log('hello',totalPages,currentPage)
     // if(Array.isArray(selectedPlans)){
     //     const totalPages = Math.ceil(selectedPlans.length/PLANS_PER_PAGE)
     //     const showPlans = [...selectedPlans.slice(0, PLANS_PER_PAGE)]
     //     return{totalPages:totalPages,showPlans:showPlans}
-    // }
-    // 防呆：檢查近來資料是否為Array
+    // } 防呆：檢查近來資料是否為Array
+
+    let page = [];
+    for(let i =1; i < totalPages+1; i++){
+        page[i] = i;
+    }
+    let pageIndex = page.map(item => <div className='page' onClick={()=>{changePage(item)}}>{item}</div>)
+
     React.useEffect(()=>{
         changePlans(props.selectedPlans.slice(begin, PLANS_PER_PAGE * currentPage))
     },[currentPage])
@@ -55,10 +60,13 @@ const  CalendarList:React.FC<IProps> = props =>{
     return (
     <div className='currentday2'>
         {dataBlock}
+        <div className='pageIndex'>
         {(currentPage - 1) !== 0 ? <div className='prevPage' onClick={changePrevPage}>上一頁</div>
         : false}
+        {pageIndex}
         {currentPage !== totalPages ? <div className='nextPage' onClick={changeNextPage}>下一頁</div>
         : false}
+        </div>
     </div>)
 }
 
