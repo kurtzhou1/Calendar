@@ -30,7 +30,6 @@ class Calendar2 extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log ('susu',prevProps.selectedYearMonth,this.props.selectedYearMonth)
     if (prevProps.selectedYearMonth === this.props.selectedYearMonth) {
         return;
     }
