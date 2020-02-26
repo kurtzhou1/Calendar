@@ -2,6 +2,7 @@ import * as React from 'react';
 import moment from "moment";
 import CalendarGrid from './CalendarGrid';
 import CalendarList from './CalendarList';
+import {useSelector,useDispatch} from 'react-redux'
 
 export interface dataSource{
     guaranteed: boolean
@@ -30,9 +31,10 @@ export interface IProps{
 
 
 const Calendar3:React.FC<IProps> = props => {
-    const [selectedYearMonth,changeMonth] = React.useState(moment(props.initYearMonth,'YYYYMM'))
+    const selectedYearMonth = useSelector((state:any) => state.thisYearMonth)
+    const dispatch = useDispatch();
+    // const [selectedYearMonth,changeMonth] = React.useState(moment(props.initYearMonth,'YYYYMM'))
     const dataKey = props.dataKeySetting
-
     //資料處理
     const processDataSource = (data:any) => {
         let plans = new Map()
@@ -76,18 +78,33 @@ const Calendar3:React.FC<IProps> = props => {
         changePlan(plans.get(selectedYearMonth.format('YYYYMM')))
     },[selectedYearMonth])
 
-    const changePrevMonth = () =>(
-        parseInt(prevMonth.format('YYYYMM')) < minDate ? changeMonth(selectedYearMonth): changeMonth(selectedYearMonth.clone().subtract(1,'month'))
-    ) 
+    const changePrevMonth = () =>{
+        // parseInt(prevMonth.format('YYYYMM')) < minDate ? changeMonth(selectedYearMonth): changeMonth(selectedYearMonth.clone().subtract(1,'month'))
+        parseInt(prevMonth.format('YYYYMM')) < minDate ?    dispatch({
+            type: 'GOTO_YEARMONTH',
+            payload: selectedYearMonth,  
+        }):
+        dispatch({
+            type: 'PREV_YEARMONTH',
+            payload: selectedYearMonth,  
+        })
+    }
     const arrowLeft = (
         <div className="arrow left">
             <span className="triangle-left"
             onClick={changePrevMonth}></span>
         </div>)
     
-    const changeNextMonth = () =>(
-        parseInt(nextMonth.format('YYYYMM')) > maxDate ? changeMonth(selectedYearMonth): changeMonth(selectedYearMonth.clone().add(1,'month'))
-    )
+    const changeNextMonth = () =>{
+        // parseInt(nextMonth.format('YYYYMM')) > maxDate ? changeMonth(selectedYearMonth): changeMonth(selectedYearMonth.clone().add(1,'month'))
+        parseInt(nextMonth.format('YYYYMM')) > maxDate ? dispatch({
+            type: 'GOTO_YEARMONTH',
+            payload: selectedYearMonth,  
+        }): dispatch({
+            type: 'NEXT_YEARMONTH',
+            payload: selectedYearMonth,
+        })
+    }
 
     const arrowRight = (
         <div className="arrow right">

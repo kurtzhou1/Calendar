@@ -1,7 +1,7 @@
 import {PREV_YEARMONTH,NEXT_YEARMONTH,GOTO_YEARMONTH} from '../constants/action-types';
   
   const defaultState = {
-    thisYearMonth:  '198701',
+    thisYearMonth:  '201712',
   }
 
   export default function selectedYearMonth(state = defaultState, action) {
