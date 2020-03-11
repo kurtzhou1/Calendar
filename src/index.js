@@ -11,10 +11,10 @@ import Modle from "./components/Modle";
 import Calendar2 from "./components/Calendar2";
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import reducer from './reducers/index.tsx';
+import reducer from './reducers/index.ts';
 // import store from './store/configureStore';
 
-//第三次撰寫(Hook)
+//第三次撰寫(Hook+redux)
 import Calendar3 from "./components/Calendar";
 import data from "./data/data2.json"
 
@@ -95,12 +95,12 @@ const store = createStore(reducer,
     };
  
     return (
-        <Provider store={store}>
-      <div>
-        <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
-        <Calendar3 {...props}/>
-      </div>
-        </Provider>
+      <Provider store={store}>
+          <div>
+            <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
+            <Calendar3 {...props}/>
+          </div>
+      </Provider>
         // <Provider store={store}>
         //   <Modle isCalendar={this.state.isCalendar} changeModle={this.changeModle}/>
         //   <CalendarBody {...props}/>

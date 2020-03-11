@@ -80,7 +80,7 @@ const Calendar3:React.FC<IProps> = props => {
 
     const changePrevMonth = () =>{
         // parseInt(prevMonth.format('YYYYMM')) < minDate ? changeMonth(selectedYearMonth): changeMonth(selectedYearMonth.clone().subtract(1,'month'))
-        parseInt(prevMonth.format('YYYYMM')) < minDate ?    dispatch({
+        parseInt(prevMonth.format('YYYYMM')) < minDate ?  dispatch({
             type: 'GOTO_YEARMONTH',
             payload: selectedYearMonth,  
         }):
